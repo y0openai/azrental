@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아조씨 신청 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .signup-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .signup-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .signup-card h2 {
+      color: var(--primary-700);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .form-section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--neutral-900);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--neutral-900);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .price-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+
+    .price-unit {
+      color: var(--neutral-600);
+      font-weight: 600;
+      padding-bottom: 0.75rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .checkbox-group input {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .expertise-tags {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .expertise-btn {
+      padding: 0.75rem;
+      border: 2px solid var(--primary-300);
+      background: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary-700);
+      transition: all 0.2s;
+    }
+
+    .expertise-btn:hover {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .expertise-btn.selected {
+      background: var(--primary-500);
+      color: white;
+      border-color: var(--primary-500);
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .day-label {
+      text-align: center;
+      font-weight: 600;
+      color: var(--neutral-700);
+      font-size: 0.85rem;
+      padding: 0.5rem 0;
+    }
+
+    .time-slot {
+      padding: 0.5rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.375rem;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .time-slot:hover {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .time-slot.selected {
+      background: var(--primary-500);
+      color: white;
+      border-color: var(--primary-500);
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-submit {
+      flex: 1;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-700);
+    }
+
+    .btn-cancel {
+      flex: 1;
+      background: white;
+      color: var(--primary-500);
+      border: 2px solid var(--primary-500);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .guidelines {
+      background: var(--secondary-100);
+      border-left: 4px solid var(--secondary-500);
+      padding: 1rem;
+      border-radius: 0.25rem;
+      color: var(--secondary-700);
+      font-size: 0.9rem;
+    }
+
+    .guidelines h4 {
+      margin: 0 0 0.75rem 0;
+      color: var(--secondary-700);
+    }
+
+    .guidelines ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .guidelines li {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .signup-card {
+        padding: 1.5rem;
+      }
+
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .price-input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .price-unit {
+        padding-bottom: 0;
+        margin-top: 0.5rem;
+      }
+
+      .btn-container {
+        flex-direction: column;
+      }
+
+      .schedule-grid {
+        grid-template-columns: repeat(7, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="index.html">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="dashboard-customer.html">내 예약</a></li>
+          <li><a href="messages.html">메시지</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="signup-container">
+      <h1 style="text-align: center; margin-bottom: 2rem; color: var(--primary-700);">아조씨 신청</h1>
+
+      <!-- Form -->
+      <form class="signup-card">
+        <!-- Profile Info -->
+        <div class="form-section">
+          <h3>👤 기본 정보</h3>
+
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" placeholder="이름을 입력해주세요" required>
+          </div>
+
+          <div class="form-group">
+            <label>나이</label>
+            <input type="number" placeholder="예: 45" min="40" required>
+          </div>
+
+          <div class="form-group">
+            <label>자기소개</label>
+            <textarea placeholder="당신의 경험, 전문성, 성격에 대해 알려주세요" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>프로필 사진 업로드 (최대 5장)</label>
+            <div style="border: 2px dashed var(--neutral-300); border-radius: 0.5rem; padding: 1.5rem; text-align: center; background: var(--neutral-50);">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">📷</div>
+              <p style="color: var(--neutral-600); margin-bottom: 1rem; font-size: 0.9rem;">사진을 드래그하거나 클릭해서 업로드</p>
+              <input type="file" accept="image/*" multiple style="display: none;" id="profile-photos">
+              <button type="button" onclick="document.getElementById('profile-photos').click()" style="padding: 0.5rem 1rem; background: var(--primary-500); color: white; border: none; border-radius: 0.375rem; font-weight: 600; cursor: pointer;">사진 선택</button>
+              <p style="color: var(--neutral-500); font-size: 0.8rem; margin-top: 0.75rem;">JPG, PNG 형식 / 최대 5MB / 최소 1장 필수</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-top: 1rem;">
+              <div style="aspect-ratio: 1; background: var(--neutral-200); border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; color: var(--neutral-500); font-size: 0.8rem;">메인</div>
+              <div style="aspect-ratio: 1; background: var(--neutral-100); border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; color: var(--neutral-400);">+</div>
+              <div style="aspect-ratio: 1; background: var(--neutral-100); border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; color: var(--neutral-400);">+</div>
+              <div style="aspect-ratio: 1; background: var(--neutral-100); border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; color: var(--neutral-400);">+</div>
+              <div style="aspect-ratio: 1; background: var(--neutral-100); border-radius: 0.375rem; display: flex; align-items: center; justify-content: center; color: var(--neutral-400);">+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expertise -->
+        <div class="form-section">
+          <h3>🎓 전문성</h3>
+          <p style="color: var(--neutral-600); margin-bottom: 1rem;">당신의 강점을 선택해주세요 (복수 선택 가능)</p>
+
+          <div class="expertise-tags">
+            <button type="button" class="expertise-btn selected" onclick="this.classList.toggle('selected')">
+              💼 직업 상담
+            </button>
+            <button type="button" class="expertise-btn" onclick="this.classList.toggle('selected')">
+              💔 감정 상담
+            </button>
+            <button type="button" class="expertise-btn" onclick="this.classList.toggle('selected')">
+              🎬 여행 동반
+            </button>
+            <button type="button" class="expertise-btn" onclick="this.classList.toggle('selected')">
+              📚 취업 멘토
+            </button>
+            <button type="button" class="expertise-btn" onclick="this.classList.toggle('selected')">
+              🍽️ 식사 동반
+            </button>
+            <button type="button" class="expertise-btn" onclick="this.classList.toggle('selected')">
+              🎨 문화 생활
+            </button>
+          </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="form-section">
+          <h3>💰 요금</h3>
+
+          <div class="form-group">
+            <label>시간당 요금</label>
+            <div class="price-input-row">
+              <input type="number" placeholder="예: 50000" min="0" required>
+              <div class="price-unit">원 / 시간</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>소개</label>
+            <textarea placeholder="고객들에게 보여질 짧은 소개문을 작성해주세요" required></textarea>
+          </div>
+        </div>
+
+        <!-- Schedule -->
+        <div class="form-section">
+          <h3>⏰ 가능한 일정</h3>
+          <p style="color: var(--neutral-600); margin-bottom: 1rem;">예약 가능한 요일과 시간대를 선택해주세요</p>
+
+          <label style="margin-bottom: 1rem;">평일</label>
+          <div class="schedule-grid">
+            <div class="day-label">월</div>
+            <div class="day-label">화</div>
+            <div class="day-label">수</div>
+            <div class="day-label">목</div>
+            <div class="day-label">금</div>
+            <div class="day-label">토</div>
+            <div class="day-label">일</div>
+
+            <div class="time-slot">오전</div>
+            <div class="time-slot selected">오전</div>
+            <div class="time-slot">오전</div>
+            <div class="time-slot selected">오전</div>
+            <div class="time-slot">오전</div>
+            <div class="time-slot">오전</div>
+            <div class="time-slot">오전</div>
+
+            <div class="time-slot">오후</div>
+            <div class="time-slot">오후</div>
+            <div class="time-slot selected">오후</div>
+            <div class="time-slot">오후</div>
+            <div class="time-slot selected">오후</div>
+            <div class="time-slot selected">오후</div>
+            <div class="time-slot">오후</div>
+
+            <div class="time-slot">저녁</div>
+            <div class="time-slot selected">저녁</div>
+            <div class="time-slot">저녁</div>
+            <div class="time-slot selected">저녁</div>
+            <div class="time-slot">저녁</div>
+            <div class="time-slot">저녁</div>
+            <div class="time-slot selected">저녁</div>
+          </div>
+        </div>
+
+        <!-- Verification -->
+        <div class="form-section">
+          <h3>🔐 신원 확인</h3>
+
+          <div class="form-group">
+            <label>주민등록번호 (확인용)</label>
+            <input type="password" placeholder="YYMMDD-XXXXXXX" required>
+          </div>
+
+          <div class="form-group">
+            <label>휴대폰 번호</label>
+            <input type="tel" placeholder="010-0000-0000" required>
+          </div>
+
+          <div class="form-group">
+            <label>이메일</label>
+            <input type="email" placeholder="email@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>신분증 사진 업로드</label>
+            <div style="border: 2px dashed var(--secondary-300); border-radius: 0.5rem; padding: 1.5rem; text-align: center; background: var(--secondary-50);">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🪪</div>
+              <p style="color: var(--secondary-700); margin-bottom: 1rem; font-size: 0.9rem;">신분증 앞면 사진을 업로드해주세요</p>
+              <input type="file" accept="image/*" style="display: none;" id="id-photo">
+              <button type="button" onclick="document.getElementById('id-photo').click()" style="padding: 0.5rem 1rem; background: var(--secondary-500); color: white; border: none; border-radius: 0.375rem; font-weight: 600; cursor: pointer;">신분증 업로드</button>
+              <p style="color: var(--secondary-600); font-size: 0.8rem; margin-top: 0.75rem;">주민등록증, 운전면허증, 여권 중 1개</p>
+            </div>
+            <div style="background: var(--accent-100); border-left: 4px solid var(--accent-500); padding: 0.75rem 1rem; margin-top: 1rem; border-radius: 0.25rem;">
+              <p style="font-size: 0.85rem; color: var(--accent-700); margin: 0;">
+                🔒 <strong>안심하세요</strong> - 신분증은 본인 확인 후 즉시 삭제되며, 절대 저장되지 않습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agreements -->
+        <div class="form-section">
+          <h3>✅ 동의</h3>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="terms" required checked>
+            <label for="terms">
+              <a href="#" style="color: var(--primary-500); text-decoration: none;">이용약관</a>에 동의합니다
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="privacy" required checked>
+            <label for="privacy">
+              <a href="#" style="color: var(--primary-500); text-decoration: none;">개인정보 처리방침</a>에 동의합니다
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="code" required checked>
+            <label for="code">
+              <a href="#" style="color: var(--primary-500); text-decoration: none;">아조씨 행동규칙</a>을 이해하고 준수하겠습니다
+            </label>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-container">
+          <button type="submit" class="btn-submit">신청하기</button>
+          <button type="button" class="btn-cancel" onclick="location.href='index.html'">취소</button>
+        </div>
+      </form>
+
+      <!-- Guidelines -->
+      <div class="guidelines">
+        <h4>📋 신청 가이드라인</h4>
+        <ul>
+          <li>신청자는 만 40세 이상이어야 합니다</li>
+          <li>정직하고 명확한 정보를 제공해주세요</li>
+          <li>신원 확인 과정을 거치게 됩니다 (3-5일 소요)</li>
+          <li>승인 후 즉시 고객 예약을 받을 수 있습니다</li>
+          <li>이용약관 위반 시 계정이 제한될 수 있습니다</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">🏠 홈</a>
+    <a href="search.html" class="nav-item">🔍 검색</a>
+    <a href="messages.html" class="nav-item">💬 메시지</a>
+    <a href="dashboard-customer.html" class="nav-item">👤 프로필</a>
+  </nav>
+</body>
+</html>

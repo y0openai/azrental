@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>예약하기 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .back-btn {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      z-index: 10;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: var(--primary-500);
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+    }
+
+    .booking-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+
+    .booking-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-form h2 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-700);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .form-section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--neutral-900);
+    }
+
+    .date-time-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .time-slot {
+      padding: 0.75rem;
+      border: 2px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .time-slot:hover {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .time-slot.selected {
+      background: var(--primary-500);
+      color: white;
+      border-color: var(--primary-500);
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-header {
+      text-align: center;
+      font-weight: 600;
+      padding: 0.5rem;
+      color: var(--neutral-500);
+      font-size: 0.8rem;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+      font-size: 0.85rem;
+    }
+
+    .calendar-day:hover {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .calendar-day.selected {
+      background: var(--primary-500);
+      color: white;
+      border-color: var(--primary-500);
+    }
+
+    .calendar-day.disabled {
+      background: var(--neutral-100);
+      color: var(--neutral-400);
+      cursor: not-allowed;
+    }
+
+    .location-select {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .location-option {
+      padding: 1rem;
+      border: 2px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .location-option:hover {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .location-option.selected {
+      background: var(--primary-500);
+      color: white;
+      border-color: var(--primary-500);
+    }
+
+    .location-label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .location-desc {
+      font-size: 0.8rem;
+      color: inherit;
+    }
+
+    /* Summary Sidebar */
+    .booking-summary {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .booking-summary h3 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-700);
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .summary-item:last-of-type {
+      border-bottom: none;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .summary-label {
+      color: var(--neutral-600);
+      font-size: 0.9rem;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      color: var(--neutral-900);
+      text-align: right;
+    }
+
+    .summary-price {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--primary-100);
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-price-label {
+      font-weight: 600;
+      color: var(--primary-700);
+    }
+
+    .summary-price-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-700);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-700);
+    }
+
+    .notice {
+      background: var(--accent-300);
+      border-left: 4px solid var(--accent-500);
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-700);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1024px) {
+      .booking-container {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .date-time-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .time-slots {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .location-select {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="profile.html" class="back-btn">← 돌아가기</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="index.html">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="dashboard-customer.html">내 예약</a></li>
+          <li><a href="customer-login.html">로그인</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1 style="margin-top: 2rem;">박준호 아조씨와 예약하기</h1>
+    <p style="color: var(--neutral-500);">12,000원/시간</p>
+
+    <div class="booking-container">
+      <!-- Booking Form -->
+      <form class="booking-form">
+        <!-- Date Selection -->
+        <div class="form-section">
+          <h3>📅 날짜 선택</h3>
+          <div class="notice">
+            💡 아조씨의 가용 시간을 표시하고 있습니다. 클릭하여 원하는 날짜를 선택하세요.
+          </div>
+          <div class="calendar">
+            <div class="calendar-header">월</div>
+            <div class="calendar-header">화</div>
+            <div class="calendar-header">수</div>
+            <div class="calendar-header">목</div>
+            <div class="calendar-header">금</div>
+            <div class="calendar-header">토</div>
+            <div class="calendar-header">일</div>
+
+            <div class="calendar-day disabled">27</div>
+            <div class="calendar-day disabled">28</div>
+            <div class="calendar-day disabled">29</div>
+            <div class="calendar-day disabled">30</div>
+            <div class="calendar-day disabled">31</div>
+            <div class="calendar-day">1</div>
+            <div class="calendar-day">2</div>
+            <div class="calendar-day">3</div>
+            <div class="calendar-day selected">4</div>
+            <div class="calendar-day">5</div>
+            <div class="calendar-day">6</div>
+            <div class="calendar-day">7</div>
+            <div class="calendar-day">8</div>
+            <div class="calendar-day">9</div>
+            <div class="calendar-day">10</div>
+          </div>
+          <p style="margin: 1rem 0 0 0; color: var(--neutral-500); font-size: 0.9rem;">선택한 날짜: 2026년 1월 4일 (토)</p>
+        </div>
+
+        <!-- Time Selection -->
+        <div class="form-section">
+          <h3>🕐 시간 선택</h3>
+          <p style="margin-bottom: 1rem; color: var(--neutral-500); font-size: 0.9rem;">가용한 시간을 선택하세요</p>
+          <div class="time-slots">
+            <div class="time-slot">10:00</div>
+            <div class="time-slot">11:00</div>
+            <div class="time-slot">14:00</div>
+            <div class="time-slot selected">15:00</div>
+            <div class="time-slot">16:00</div>
+            <div class="time-slot">17:00</div>
+            <div class="time-slot">18:00</div>
+          </div>
+          <p style="margin: 1rem 0 0 0; color: var(--neutral-500); font-size: 0.9rem;">선택한 시간: 15:00 - 16:00</p>
+        </div>
+
+        <!-- Duration Selection -->
+        <div class="form-section">
+          <h3>⏱️ 예약 시간</h3>
+          <div class="form-group">
+            <label>몇 시간을 예약하시겠습니까?</label>
+            <select>
+              <option>1시간 (12,000원)</option>
+              <option>2시간 (24,000원)</option>
+              <option>3시간 (36,000원)</option>
+              <option>반나절 4시간 (48,000원)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Location Selection -->
+        <div class="form-section">
+          <h3>📍 만날 장소</h3>
+
+          <!-- Kakao Map Search -->
+          <div class="form-group">
+            <label>장소 검색 (카카오맵)</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" placeholder="카페, 음식점, 장소명으로 검색..." style="flex: 1;">
+              <button type="button" style="padding: 0.75rem 1.5rem; background: #FEE500; color: #391B1B; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; white-space: nowrap;">🔍 검색</button>
+            </div>
+          </div>
+
+          <!-- Map Preview -->
+          <div style="background: var(--neutral-200); border-radius: 0.5rem; height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; border: 2px dashed var(--neutral-300);">
+            <div style="text-align: center; color: var(--neutral-500);">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🗺️</div>
+              <p style="margin: 0; font-size: 0.9rem;">카카오맵에서 장소를 검색해주세요</p>
+            </div>
+          </div>
+
+          <!-- Selected Location -->
+          <div style="background: var(--secondary-100); border-left: 4px solid var(--secondary-500); padding: 1rem; border-radius: 0.25rem;">
+            <div style="font-weight: 600; color: var(--secondary-700); margin-bottom: 0.25rem;">📍 선택된 장소</div>
+            <div style="color: var(--secondary-600); font-size: 0.9rem;">스타벅스 강남역점</div>
+            <div style="color: var(--neutral-500); font-size: 0.8rem; margin-top: 0.25rem;">서울 강남구 강남대로 390</div>
+          </div>
+
+          <!-- Quick Location Options -->
+          <div style="margin-top: 1rem;">
+            <label style="font-size: 0.9rem; color: var(--neutral-600);">또는 장소 유형 선택</label>
+            <div class="location-select" style="margin-top: 0.5rem;">
+              <div class="location-option">
+                <div class="location-label">☕ 카페</div>
+              </div>
+              <div class="location-option">
+                <div class="location-label">🍽️ 음식점</div>
+              </div>
+              <div class="location-option">
+                <div class="location-label">🌳 공원</div>
+              </div>
+              <div class="location-option selected">
+                <div class="location-label">💻 온라인</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Special Requests -->
+        <div class="form-section">
+          <h3>💬 특별한 요청 (선택사항)</h3>
+          <div class="form-group">
+            <label>아조씨에게 전하고 싶은 메시지</label>
+            <textarea rows="4" placeholder="예: 커리어 전환에 대해 이야기하고 싶습니다..."></textarea>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+            <input type="checkbox" style="width: auto; margin: 0;" checked>
+            <span>이용 약관 및 취소 정책에 동의합니다</span>
+          </label>
+        </div>
+      </form>
+
+      <!-- Summary Sidebar -->
+      <aside class="booking-summary">
+        <h3>예약 요약</h3>
+
+        <div class="summary-item">
+          <span class="summary-label">아조씨</span>
+          <span class="summary-value">박준호</span>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">날짜</span>
+          <span class="summary-value">2026-01-04</span>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">시간</span>
+          <span class="summary-value">15:00 - 16:00</span>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">장소</span>
+          <span class="summary-value">카페</span>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">시간당</span>
+          <span class="summary-value">12,000원</span>
+        </div>
+
+        <div class="summary-price">
+          <span class="summary-price-label">예상 금액</span>
+          <span class="summary-price-value">12,000원</span>
+        </div>
+
+        <button type="submit" class="btn-submit" onclick="location.href='checkout.html'">결제하기</button>
+
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--neutral-500); text-align: center;">
+          ✓ 24시간 전 취소 시 100% 환불<br>
+          ✓ 에스크로우 결제로 안전함
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard-customer.html" class="nav-item">🏠 홈</a>
+    <a href="search.html" class="nav-item">🔍 검색</a>
+    <a href="messages.html" class="nav-item">💬 메시지</a>
+    <a href="dashboard-customer.html" class="nav-item">👤 프로필</a>
+  </nav>
+</body>
+</html>

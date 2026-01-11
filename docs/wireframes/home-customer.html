@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>홈 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .home-header {
+      background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+      color: white;
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+
+    .home-header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .greeting {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .greeting-small {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 0.25rem;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .search-btn {
+      padding: 0.75rem 1.5rem;
+      background: var(--secondary-500);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .search-btn:hover {
+      background: var(--secondary-700);
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--neutral-900);
+    }
+
+    .recommended-uncles {
+      grid-column: 1 / -1;
+    }
+
+    .uncle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .uncle-card {
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .uncle-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .uncle-photo {
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-300) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+    }
+
+    .uncle-rating {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .uncle-info {
+      padding: 1rem;
+    }
+
+    .uncle-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .uncle-skill {
+      font-size: 0.75rem;
+      color: var(--neutral-600);
+      margin-bottom: 0.5rem;
+    }
+
+    .uncle-price {
+      font-size: 0.85rem;
+      color: var(--primary-700);
+      font-weight: 600;
+    }
+
+    .upcoming-bookings {
+      grid-column: 1 / -1;
+    }
+
+    .booking-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--primary-500);
+      margin-bottom: 1rem;
+    }
+
+    .booking-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .booking-uncle {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--neutral-900);
+    }
+
+    .booking-date {
+      font-size: 0.9rem;
+      color: var(--neutral-600);
+      margin-top: 0.25rem;
+    }
+
+    .booking-status {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--secondary-300);
+      color: var(--secondary-700);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .booking-status.pending {
+      background: var(--accent-300);
+      color: var(--accent-700);
+    }
+
+    .booking-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-item {
+      color: var(--neutral-600);
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--neutral-900);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .booking-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-message {
+      background: var(--primary-500);
+      color: white;
+    }
+
+    .btn-message:hover {
+      background: var(--primary-700);
+    }
+
+    .btn-detail {
+      background: white;
+      color: var(--primary-500);
+      border: 1px solid var(--primary-500);
+    }
+
+    .btn-detail:hover {
+      background: var(--primary-100);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--neutral-500);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--neutral-700);
+    }
+
+    .stat-box {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-700);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--neutral-600);
+    }
+
+    @media (max-width: 1024px) {
+      .home-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .uncle-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .booking-info {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .home-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .search-bar {
+        flex-direction: column;
+      }
+
+      .search-input,
+      .search-btn {
+        width: 100%;
+      }
+
+      .uncle-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+      }
+
+      .booking-actions {
+        flex-direction: column;
+      }
+
+      .btn-small {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="home-customer.html" style="font-weight: 600;">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="messages.html">메시지</a></li>
+          <li><a href="dashboard-customer.html">내 예약</a></li>
+          <li><a href="customer-login.html" style="color: #DC2626;">로그아웃</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Home Header -->
+  <section class="home-header">
+    <div class="container">
+      <div class="home-header-content">
+        <div>
+          <div class="greeting">👋 안녕하세요, 미영님!</div>
+          <div class="greeting-small">오늘은 누구의 경험을 나누고 싶으신가요?</div>
+        </div>
+        <div style="text-align: right; font-size: 3rem;">🎭</div>
+      </div>
+
+      <!-- Quick Search -->
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="아조씨 이름, 기술, 지역으로 검색...">
+        <button class="search-btn">🔍 검색</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" style="margin-bottom: 3rem;">
+    <div class="home-grid">
+      <!-- Upcoming Bookings -->
+      <div class="upcoming-bookings">
+        <h2 class="section-title">📅 예정된 예약</h2>
+
+        <div class="booking-card">
+          <div class="booking-header">
+            <div>
+              <div class="booking-uncle">박준호 아조씨와 만남</div>
+              <div class="booking-date">2026-01-15 (수)</div>
+            </div>
+            <span class="booking-status">확정됐어요</span>
+          </div>
+
+          <div class="booking-info">
+            <div class="info-item">
+              <span class="info-label">🕐 시간</span>
+              15:00 - 16:00
+            </div>
+            <div class="info-item">
+              <span class="info-label">📍 장소</span>
+              강남 카페
+            </div>
+            <div class="info-item">
+              <span class="info-label">💬 주제</span>
+              커리어 전환
+            </div>
+            <div class="info-item">
+              <span class="info-label">💰 가격</span>
+              30,000원
+            </div>
+          </div>
+
+          <div class="booking-actions">
+            <button class="btn-small btn-message">💬 메시지</button>
+            <button class="btn-small btn-detail">상세보기</button>
+          </div>
+        </div>
+
+        <div class="booking-card">
+          <div class="booking-header">
+            <div>
+              <div class="booking-uncle">이순신 아조씨와 여행</div>
+              <div class="booking-date">2026-01-18 (토)</div>
+            </div>
+            <span class="booking-status pending">대기 중</span>
+          </div>
+
+          <div class="booking-info">
+            <div class="info-item">
+              <span class="info-label">🕐 시간</span>
+              10:00 - 14:00
+            </div>
+            <div class="info-item">
+              <span class="info-label">📍 장소</span>
+              한강공원
+            </div>
+            <div class="info-item">
+              <span class="info-label">💬 주제</span>
+              여행지 추천
+            </div>
+            <div class="info-item">
+              <span class="info-label">💰 가격</span>
+              60,000원
+            </div>
+          </div>
+
+          <div class="booking-actions">
+            <button class="btn-small btn-message">💬 메시지</button>
+            <button class="btn-small btn-detail">상세보기</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-box">
+        <div class="stat-value">12</div>
+        <div class="stat-label">완료한 예약</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-value">5</div>
+        <div class="stat-label">찜한 아조씨</div>
+      </div>
+
+      <!-- Recommended Uncles -->
+      <div class="recommended-uncles">
+        <h2 class="section-title">⭐ 당신을 위한 추천 아조씨</h2>
+
+        <div class="uncle-grid">
+          <a href="profile.html" class="uncle-card">
+            <div class="uncle-photo">
+              📚
+              <div class="uncle-rating">⭐ 4.9</div>
+            </div>
+            <div class="uncle-info">
+              <div class="uncle-name">김영호</div>
+              <div class="uncle-skill">책/글쓰기</div>
+              <div class="uncle-price">20,000원/시간</div>
+            </div>
+          </a>
+
+          <a href="profile.html" class="uncle-card">
+            <div class="uncle-photo">
+              🎬
+              <div class="uncle-rating">⭐ 4.7</div>
+            </div>
+            <div class="uncle-info">
+              <div class="uncle-name">이준호</div>
+              <div class="uncle-skill">영화/예술</div>
+              <div class="uncle-price">25,000원/시간</div>
+            </div>
+          </a>
+
+          <a href="profile.html" class="uncle-card">
+            <div class="uncle-photo">
+              🍳
+              <div class="uncle-rating">⭐ 4.8</div>
+            </div>
+            <div class="uncle-info">
+              <div class="uncle-name">박성준</div>
+              <div class="uncle-skill">요리/음식</div>
+              <div class="uncle-price">30,000원/시간</div>
+            </div>
+          </a>
+
+          <a href="profile.html" class="uncle-card">
+            <div class="uncle-photo">
+              💼
+              <div class="uncle-rating">⭐ 5.0</div>
+            </div>
+            <div class="uncle-info">
+              <div class="uncle-name">최기준</div>
+              <div class="uncle-skill">커리어/취업</div>
+              <div class="uncle-price">35,000원/시간</div>
+            </div>
+          </a>
+
+          <a href="profile.html" class="uncle-card">
+            <div class="uncle-photo">
+              🎵
+              <div class="uncle-rating">⭐ 4.6</div>
+            </div>
+            <div class="uncle-info">
+              <div class="uncle-name">오민준</div>
+              <div class="uncle-skill">음악/악기</div>
+              <div class="uncle-price">25,000원/시간</div>
+            </div>
+          </a>
+
+          <a href="profile.html" class="uncle-card">
+            <div class="uncle-photo">
+              🏃
+              <div class="uncle-rating">⭐ 4.5</div>
+            </div>
+            <div class="uncle-info">
+              <div class="uncle-name">정현준</div>
+              <div class="uncle-skill">운동/건강</div>
+              <div class="uncle-price">20,000원/시간</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="home-customer.html" class="nav-item active">🏠 홈</a>
+    <a href="search.html" class="nav-item">🔍 검색</a>
+    <a href="messages.html" class="nav-item">💬 메시지</a>
+    <a href="dashboard-customer.html" class="nav-item">👤 마이페이지</a>
+  </nav>
+</body>
+</html>

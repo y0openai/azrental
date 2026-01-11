@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아조씨 렌탈 - 와이어프레임 프로토타입</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .wireframe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .wireframe-card {
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .wireframe-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .wireframe-card-image {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #E8EFFD 0%, #7BA8F0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #2B6BE6;
+    }
+
+    .wireframe-card-body {
+      padding: 1.5rem;
+    }
+
+    .wireframe-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .wireframe-card p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--neutral-500);
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.25rem 0.75rem;
+      background: var(--secondary-300);
+      color: var(--secondary-700);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status.pending {
+      background: var(--accent-300);
+      color: var(--accent-700);
+    }
+
+    .intro-section {
+      background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+      color: white;
+      padding: 3rem 0;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .intro-section h1 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .intro-section p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="#wireframes">와이어프레임</a></li>
+          <li><a href="https://github.com" target="_blank">문서</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Intro Section -->
+  <section class="intro-section">
+    <div class="container">
+      <h1>와이어프레임 프로토타입</h1>
+      <p>아조씨 렌탈 플랫폼의 핵심 페이지 목업입니다.<br>각 페이지를 클릭하여 상세 레이아웃을 확인하세요.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" id="wireframes">
+    <h2 style="margin-bottom: 2rem; text-align: center;">📱 페이지 목록</h2>
+
+    <!-- Auth Section -->
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: var(--primary-700); margin-bottom: 1rem;">🔐 인증</h3>
+      <div class="wireframe-grid">
+        <!-- 1. Customer Signup -->
+        <a href="customer-signup.html" class="wireframe-card">
+          <div class="wireframe-card-image">📝</div>
+          <div class="wireframe-card-body">
+            <h3>1. 고객 회원가입</h3>
+            <p>이메일, 개인정보, 약관 동의</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 2. Customer Login -->
+        <a href="customer-login.html" class="wireframe-card">
+          <div class="wireframe-card-image">🔓</div>
+          <div class="wireframe-card-body">
+            <h3>2. 고객 로그인</h3>
+            <p>이메일/비밀번호, OAuth</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 3. Uncle Signup -->
+        <a href="uncle-signup.html" class="wireframe-card">
+          <div class="wireframe-card-image">✍️</div>
+          <div class="wireframe-card-body">
+            <h3>3. 아조씨 신청</h3>
+            <p>프로필, 기술, 스케줄 등록</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 4. Uncle Login -->
+        <a href="uncle-login.html" class="wireframe-card">
+          <div class="wireframe-card-image">🔑</div>
+          <div class="wireframe-card-body">
+            <h3>4. 아조씨 로그인</h3>
+            <p>검증된 아조씨 전용 로그인</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Logged-in Home Section -->
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: var(--primary-700); margin-bottom: 1rem;">🏠 로그인 후</h3>
+      <div class="wireframe-grid">
+        <!-- 5. Customer Home -->
+        <a href="home-customer.html" class="wireframe-card">
+          <div class="wireframe-card-image">👩‍💻</div>
+          <div class="wireframe-card-body">
+            <h3>5. 고객 홈</h3>
+            <p>예약 현황, 추천 아조씨</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 6. Uncle Home -->
+        <a href="home-uncle.html" class="wireframe-card">
+          <div class="wireframe-card-image">👨‍💼</div>
+          <div class="wireframe-card-body">
+            <h3>6. 아조씨 홈</h3>
+            <p>예약 요청, 수익 통계</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Core Features Section -->
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: var(--primary-700); margin-bottom: 1rem;">⭐ 핵심 기능</h3>
+      <div class="wireframe-grid">
+        <!-- 7. Landing Page -->
+        <a href="landing.html" class="wireframe-card">
+          <div class="wireframe-card-image">🎬</div>
+          <div class="wireframe-card-body">
+            <h3>7. 랜딩 페이지</h3>
+            <p>11섹션 패럴랙스 스크롤</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 8. Search Page -->
+        <a href="search.html" class="wireframe-card">
+          <div class="wireframe-card-image">🔍</div>
+          <div class="wireframe-card-body">
+            <h3>8. 검색 & 필터링</h3>
+            <p>아조씨 검색, 지역/가격 필터</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 9. Profile Detail -->
+        <a href="profile.html" class="wireframe-card">
+          <div class="wireframe-card-image">👤</div>
+          <div class="wireframe-card-body">
+            <h3>9. 아조씨 프로필</h3>
+            <p>프로필 상세, 리뷰, 예약</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 10. Booking Page -->
+        <a href="booking.html" class="wireframe-card">
+          <div class="wireframe-card-image">📅</div>
+          <div class="wireframe-card-body">
+            <h3>10. 예약 플로우</h3>
+            <p>날짜/시간 선택, 가격 계산</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 11. Checkout Page -->
+        <a href="checkout.html" class="wireframe-card">
+          <div class="wireframe-card-image">💳</div>
+          <div class="wireframe-card-body">
+            <h3>11. 결제 체크아웃</h3>
+            <p>Toss 결제 통합, 주문 확인</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 12. Customer Dashboard -->
+        <a href="dashboard-customer.html" class="wireframe-card">
+          <div class="wireframe-card-image">📊</div>
+          <div class="wireframe-card-body">
+            <h3>12. 고객 대시보드</h3>
+            <p>예약 현황, 메시지, 설정</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 13. Uncle Dashboard -->
+        <a href="dashboard-uncle.html" class="wireframe-card">
+          <div class="wireframe-card-image">💰</div>
+          <div class="wireframe-card-body">
+            <h3>13. 아조씨 대시보드</h3>
+            <p>예약 관리, 수익, 가용성</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+        <!-- 14. Messages Page -->
+        <a href="messages.html" class="wireframe-card">
+          <div class="wireframe-card-image">💬</div>
+          <div class="wireframe-card-body">
+            <h3>14. 메시징</h3>
+            <p>1:1 채팅, 사진 공유</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Admin Section -->
+    <div style="margin-bottom: 2rem;">
+      <h3 style="color: #DC2626; margin-bottom: 1rem;">👨‍💼 관리자</h3>
+      <div class="wireframe-grid">
+        <!-- 15. Admin Dashboard -->
+        <a href="admin.html" class="wireframe-card">
+          <div class="wireframe-card-image">🔐</div>
+          <div class="wireframe-card-body">
+            <h3>15. 신원 검증 관리</h3>
+            <p>아조씨 신원 확인, 승인</p>
+            <div class="status">완료</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="wireframe-note" style="margin-top: 3rem;">
+      <strong>📝 참고:</strong> 이 와이어프레임은 저해상도 목업입니다. 각 페이지를 클릭하여 상세 레이아웃을 확인하세요. 모바일/데스크톱 화면 크기를 조정하여 반응형 디자인을 확인할 수 있습니다.
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--neutral-100); padding: 2rem 0; margin-top: 3rem; text-align: center; color: var(--neutral-500); font-size: 0.9rem;">
+    <div class="container">
+      <p>아조씨 렌탈 - 와이어프레임 프로토타입 | 2026-01-11</p>
+    </div>
+  </footer>
+</body>
+</html>

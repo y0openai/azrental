@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아조씨 프로필 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .back-btn {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      z-index: 10;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: var(--primary-500);
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .back-btn {
+        top: auto;
+        bottom: 90px;
+      }
+    }
+
+    .profile-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-top: 2rem;
+      width: 100%;
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .profile-image {
+      width: 100%;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #E8EFFD 0%, #7BA8F0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      position: relative;
+    }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--neutral-100);
+    }
+
+    .photo-thumb {
+      aspect-ratio: 1;
+      background: var(--neutral-200);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .photo-thumb:hover {
+      border-color: var(--primary-500);
+    }
+
+    .photo-thumb.active {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .profile-info {
+      padding: 1.5rem;
+    }
+
+    .profile-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-name {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-name h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .verified-badge {
+      display: inline-block;
+      background: var(--secondary-500);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .profile-meta {
+      color: var(--neutral-500);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .rating-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .rating-big {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-700);
+    }
+
+    .rating-info {
+      flex: 1;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .star {
+      color: var(--accent-500);
+    }
+
+    .rating-count {
+      font-size: 0.85rem;
+      color: var(--neutral-500);
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-700);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--neutral-500);
+    }
+
+    .btn-book {
+      width: 100%;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .btn-book:hover {
+      background: var(--primary-700);
+    }
+
+    .btn-report {
+      width: 100%;
+      background: white;
+      color: var(--neutral-500);
+      border: 1px solid var(--neutral-300);
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .content-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-section h2 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-700);
+    }
+
+    .content-section h3 {
+      color: var(--neutral-900);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .content-section p {
+      margin: 0 0 1rem 0;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.375rem 0.75rem;
+      background: var(--primary-100);
+      color: var(--primary-700);
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .availability-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+
+    .day-item {
+      background: var(--neutral-100);
+      padding: 0.75rem;
+      text-align: center;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .day-item.available {
+      background: var(--secondary-300);
+      color: var(--secondary-700);
+      font-weight: 600;
+    }
+
+    .review-item {
+      padding: 1.5rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-author {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-author-name {
+      font-weight: 600;
+      color: var(--neutral-900);
+    }
+
+    .review-date {
+      font-size: 0.8rem;
+      color: var(--neutral-500);
+    }
+
+    .review-stars {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-text {
+      color: var(--neutral-700);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .review-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--accent-300);
+      color: var(--accent-700);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .profile-container {
+        grid-template-columns: 1fr;
+      }
+
+      .availability-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.25rem;
+      }
+
+      .day-item {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="search.html" class="back-btn">← 돌아가기</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="index.html">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="customer-login.html">로그인</a></li>
+          <li><a href="customer-signup.html">회원가입</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="profile-container">
+      <!-- Profile Card (Sidebar) -->
+      <aside class="profile-card">
+        <div class="profile-image">👨‍💼</div>
+        <div class="photo-gallery">
+          <div class="photo-thumb active">👨‍💼</div>
+          <div class="photo-thumb">🏃</div>
+          <div class="photo-thumb">☕</div>
+          <div class="photo-thumb">📚</div>
+          <div class="photo-thumb">🎯</div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-header">
+            <div class="profile-name">
+              <h1>박준호</h1>
+              <span class="verified-badge">✓ 검증</span>
+            </div>
+            <div class="profile-meta">58세 | 서울 강남구</div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="quick-stats" style="border-top: 1px solid var(--neutral-300); padding-top: 1.5rem;">
+            <div class="stat-item">
+              <span class="stat-value">42</span>
+              <span class="stat-label">완료 예약</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">✓</span>
+              <span class="stat-label">신원 검증</span>
+            </div>
+          </div>
+
+          <!-- CTA Buttons -->
+          <button class="btn-book">예약하기</button>
+          <button class="btn-report">⚠️ 신고</button>
+        </div>
+      </aside>
+
+      <!-- Profile Content -->
+      <section>
+        <!-- About Section -->
+        <div class="content-section">
+          <h2>소개</h2>
+          <p>
+            안녕하세요, 박준호입니다. 저는 25년간 IT 회사에서 일한 경험을 가지고 있으며, 현재는 프리랜서 컨설턴트로 활동 중입니다.
+          </p>
+          <p>
+            커리어, 인간관계, 삶의 선택에 대한 조언을 도와드리고 싶습니다. 특히 20-40대 직장인들이 겪는 고민들을 함께 풀어보는 것을 좋아합니다.
+          </p>
+
+          <h3>전문 분야</h3>
+          <div class="tags">
+            <span class="tag">커리어 상담</span>
+            <span class="tag">IT 기술</span>
+            <span class="tag">직장 인간관계</span>
+            <span class="tag">창업 조언</span>
+            <span class="tag">멘토링</span>
+          </div>
+
+          <h3>자격 & 경력</h3>
+          <p>
+            - 삼성전자 IT 부서 과장 (15년)<br>
+            - 스타트업 CTO (3년)<br>
+            - 현재: 프리랜서 기술 컨설턴트
+          </p>
+        </div>
+
+        <!-- Availability Section -->
+        <div class="content-section">
+          <h2>가용성</h2>
+          <p style="margin-bottom: 1rem; color: var(--neutral-500); font-size: 0.9rem;">이번주 가용 시간</p>
+          <div class="availability-grid">
+            <div class="day-item available">월<br>10-18시</div>
+            <div class="day-item available">화<br>10-18시</div>
+            <div class="day-item">수<br>-</div>
+            <div class="day-item available">목<br>15-20시</div>
+            <div class="day-item available">금<br>10-18시</div>
+            <div class="day-item">토<br>-</div>
+            <div class="day-item available">일<br>14-18시</div>
+          </div>
+        </div>
+
+        <!-- Safety & Policies -->
+        <div class="content-section">
+          <h2>안전 & 정책</h2>
+          <p>
+            ✓ 신원 확인됨 (주민등록증)<br>
+            ✓ 배경 검사 완료<br>
+            ✓ 모든 예약은 에스크로우로 보호됩니다<br>
+            ✓ 24시간 전 취소 시 100% 환불 가능
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard-customer.html" class="nav-item">🏠 홈</a>
+    <a href="search.html" class="nav-item active">🔍 검색</a>
+    <a href="messages.html" class="nav-item">💬 메시지</a>
+    <a href="dashboard-customer.html" class="nav-item">👤 프로필</a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .checkout-container {
+      max-width: 600px;
+      margin: 2rem auto;
+    }
+
+    .checkout-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .checkout-card h2 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-700);
+      font-size: 1.3rem;
+    }
+
+    .order-summary {
+      background: var(--neutral-100);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .summary-row strong {
+      color: var(--neutral-900);
+    }
+
+    .summary-row span {
+      color: var(--neutral-700);
+    }
+
+    .summary-divider {
+      border-top: 1px solid var(--neutral-300);
+      margin: 1rem 0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-700);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .form-section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--neutral-900);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+    }
+
+    .payment-method {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-option {
+      padding: 1rem;
+      border: 2px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .payment-option:hover {
+      border-color: var(--primary-500);
+      background: var(--primary-100);
+    }
+
+    .payment-option.selected {
+      background: var(--primary-500);
+      color: white;
+      border-color: var(--primary-500);
+    }
+
+    .payment-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .payment-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      padding: 1.2rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-700);
+    }
+
+    .btn-cancel {
+      width: 100%;
+      background: white;
+      color: var(--primary-500);
+      border: 2px solid var(--primary-500);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .notice {
+      background: var(--secondary-300);
+      border-left: 4px solid var(--secondary-500);
+      padding: 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary-700);
+      font-size: 0.9rem;
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--neutral-300);
+      color: var(--neutral-600);
+      font-size: 0.85rem;
+    }
+
+    .security-badge::before {
+      content: '🔒';
+      font-size: 1rem;
+    }
+
+    .terms-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .terms-checkbox input {
+      width: auto;
+      margin-top: 0.25rem;
+      cursor: pointer;
+    }
+
+    .terms-checkbox label {
+      margin: 0;
+      font-weight: normal;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .payment-method {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="index.html">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="dashboard-customer.html">내 예약</a></li>
+          <li><a href="customer-login.html">로그인</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="checkout-container">
+      <h1 style="text-align: center; margin-bottom: 2rem;">결제하기</h1>
+
+      <!-- Order Summary -->
+      <div class="checkout-card">
+        <h2>주문 요약</h2>
+        <div class="order-summary">
+          <div class="summary-row">
+            <strong>박준호 아조씨</strong>
+            <span>2026-01-04, 15:00</span>
+          </div>
+          <div class="summary-row">
+            <strong>1시간 상담</strong>
+            <span>12,000원</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row">
+            <span>플랫폼 수수료 (10%)</span>
+            <span>1,200원</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-total">
+            <strong>총액</strong>
+            <span>13,200원</span>
+          </div>
+        </div>
+
+        <div class="notice">
+          💡 <strong>에스크로우 결제:</strong> 예약 확정 후 아조씨가 만남을 완료할 때까지 안전하게 보관됩니다.
+        </div>
+      </div>
+
+      <!-- Payment Form -->
+      <form class="checkout-card">
+        <!-- Personal Info -->
+        <div class="form-section">
+          <h3>개인 정보</h3>
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" value="김미영" required>
+          </div>
+          <div class="form-group">
+            <label>이메일</label>
+            <input type="email" value="miyang@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>휴대폰</label>
+            <input type="tel" value="010-1234-5678" required>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="form-section">
+          <h3>결제 수단</h3>
+          <div class="payment-method">
+            <div class="payment-option selected">
+              <div class="payment-icon">🏦</div>
+              <div class="payment-name">토스</div>
+            </div>
+            <div class="payment-option">
+              <div class="payment-icon">🎴</div>
+              <div class="payment-name">카카오페이</div>
+            </div>
+            <div class="payment-option">
+              <div class="payment-icon">💳</div>
+              <div class="payment-name">네이버페이</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>카드 번호</label>
+            <input type="text" placeholder="1234-5678-9012-3456" required>
+          </div>
+
+          <div class="input-row">
+            <div class="form-group">
+              <label>유효기간</label>
+              <input type="text" placeholder="MM/YY" required>
+            </div>
+            <div class="form-group">
+              <label>CVC</label>
+              <input type="text" placeholder="123" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>카드 소유자명</label>
+            <input type="text" placeholder="Kim Mi Young" required>
+          </div>
+        </div>
+
+        <!-- Agreements -->
+        <div class="form-section">
+          <h3>동의</h3>
+
+          <div class="terms-checkbox">
+            <input type="checkbox" id="terms" required checked>
+            <label for="terms">
+              <a href="#" style="color: var(--primary-500); text-decoration: none;">결제 약관</a>에 동의합니다
+            </label>
+          </div>
+
+          <div class="terms-checkbox">
+            <input type="checkbox" id="privacy" required checked>
+            <label for="privacy">
+              <a href="#" style="color: var(--primary-500); text-decoration: none;">개인정보 처리방침</a>에 동의합니다
+            </label>
+          </div>
+
+          <div class="terms-checkbox">
+            <input type="checkbox" id="refund" required checked>
+            <label for="refund">
+              <a href="#" style="color: var(--primary-500); text-decoration: none;">취소 및 환불 정책</a>을 이해했습니다
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <button type="button" class="btn-submit" onclick="location.href='dashboard-customer.html'">13,200원 결제하기</button>
+        <button type="button" class="btn-cancel" onclick="location.href='booking.html'">뒤로가기</button>
+
+        <div class="security-badge">
+          안전한 결제 환경에서 보호됩니다
+        </div>
+      </form>
+
+      <!-- Security Info -->
+      <div class="checkout-card" style="background: var(--secondary-100); border-left: 4px solid var(--secondary-500);">
+        <h3 style="color: var(--secondary-700); margin-bottom: 1rem;">🔒 결제 보안</h3>
+        <p style="margin: 0; color: var(--secondary-700); font-size: 0.9rem;">
+          ✓ 256-bit SSL 암호화<br>
+          ✓ PCI DSS 인증<br>
+          ✓ 모든 결제 정보는 보호됩니다<br>
+          ✓ 안전한 결제 게이트웨이 사용
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard-customer.html" class="nav-item">🏠 홈</a>
+    <a href="search.html" class="nav-item">🔍 검색</a>
+    <a href="messages.html" class="nav-item">💬 메시지</a>
+    <a href="dashboard-customer.html" class="nav-item">👤 프로필</a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .auth-container {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .auth-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .auth-card h2 {
+      color: var(--primary-700);
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .auth-card p {
+      text-align: center;
+      color: var(--neutral-600);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--neutral-900);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-group input {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .checkbox-all {
+      background: var(--neutral-100);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-item {
+      margin-bottom: 0.75rem;
+    }
+
+    .checkbox-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .agreement-link {
+      color: var(--primary-500);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .agreement-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-700);
+      transform: translateY(-2px);
+    }
+
+    .btn-submit:disabled {
+      background: var(--neutral-300);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--neutral-600);
+    }
+
+    .login-link a {
+      color: var(--primary-500);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--neutral-400);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--neutral-300);
+    }
+
+    .oauth-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .oauth-btn {
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      background: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .oauth-btn:hover {
+      border-color: var(--neutral-500);
+      background: var(--neutral-50);
+    }
+
+    .kakao-btn {
+      color: #391B1B;
+      border-color: #FEE500;
+      background: #FEE500;
+    }
+
+    .kakao-btn:hover {
+      background: #FFE100;
+    }
+
+    .naver-btn {
+      color: white;
+      background: #00C73C;
+      border-color: #00C73C;
+    }
+
+    .naver-btn:hover {
+      background: #00B030;
+    }
+
+    @media (max-width: 768px) {
+      .auth-card {
+        padding: 1.5rem;
+      }
+
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .oauth-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="index.html">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="customer-login.html">로그인</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2>회원가입</h2>
+        <p>고객으로 가입하고 아조씨를 만나보세요</p>
+
+        <!-- Signup Form -->
+        <form>
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">이메일</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="email" id="email" name="email" placeholder="example@email.com" required style="flex: 1;">
+              <button type="button" style="padding: 0.75rem 1rem; background: var(--primary-500); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; white-space: nowrap;">인증 요청</button>
+            </div>
+          </div>
+
+          <!-- Email Verification Code -->
+          <div class="form-group">
+            <label for="email-code">이메일 인증코드</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="email-code" name="email-code" placeholder="인증코드 6자리 입력" required style="flex: 1;">
+              <button type="button" style="padding: 0.75rem 1rem; background: var(--secondary-500); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; white-space: nowrap;">확인</button>
+            </div>
+            <small style="color: var(--neutral-500); font-size: 0.8rem; margin-top: 0.25rem; display: block;">이메일로 발송된 인증코드를 입력해주세요</small>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" placeholder="8자 이상, 대문자/숫자 포함" required>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="password-confirm">비밀번호 확인</label>
+            <input type="password" id="password-confirm" name="password-confirm" placeholder="비밀번호를 다시 입력하세요" required>
+          </div>
+
+          <!-- Name -->
+          <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="홍길동" required>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">전화번호</label>
+            <input type="tel" id="phone" name="phone" placeholder="010-1234-5678" required>
+          </div>
+
+          <!-- Age -->
+          <div class="form-group">
+            <label for="age">나이</label>
+            <input type="number" id="age" name="age" placeholder="만 19세 이상만 가입 가능" min="19" required>
+          </div>
+
+          <!-- Gender -->
+          <div class="form-group">
+            <label for="gender">성별</label>
+            <select id="gender" name="gender" required>
+              <option value="">선택하세요</option>
+              <option value="female">여성</option>
+              <option value="male">남성</option>
+              <option value="other">기타</option>
+            </select>
+          </div>
+
+          <!-- Agreements -->
+          <div class="checkbox-all">
+            <div class="checkbox-item">
+              <div class="checkbox-group">
+                <input type="checkbox" id="agree-all" name="agree-all">
+                <label for="agree-all">전체 동의</label>
+              </div>
+            </div>
+
+            <div class="checkbox-item" style="margin-top: 1rem;">
+              <div class="checkbox-group">
+                <input type="checkbox" id="agree-terms" name="agree-terms" required>
+                <label for="agree-terms">
+                  <a href="#" class="agreement-link">이용약관</a> 동의 (필수)
+                </label>
+              </div>
+            </div>
+
+            <div class="checkbox-item">
+              <div class="checkbox-group">
+                <input type="checkbox" id="agree-privacy" name="agree-privacy" required>
+                <label for="agree-privacy">
+                  <a href="#" class="agreement-link">개인정보처리방침</a> 동의 (필수)
+                </label>
+              </div>
+            </div>
+
+            <div class="checkbox-item">
+              <div class="checkbox-group">
+                <input type="checkbox" id="agree-marketing" name="agree-marketing">
+                <label for="agree-marketing">마케팅 정보 수신 동의 (선택)</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-submit">회원가입</button>
+        </form>
+
+        <!-- Login Link -->
+        <div class="login-link">
+          이미 계정이 있으신가요? <a href="customer-login.html">로그인</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

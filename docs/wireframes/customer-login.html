@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 - 아조씨 렌탈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .auth-container {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .auth-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .auth-card h2 {
+      color: var(--primary-700);
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .auth-card p {
+      text-align: center;
+      color: var(--neutral-600);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .user-type-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--neutral-300);
+    }
+
+    .user-type-btn {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      background: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--neutral-600);
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .user-type-btn.active {
+      color: var(--primary-500);
+      border-bottom-color: var(--primary-500);
+    }
+
+    .user-type-btn:hover {
+      color: var(--primary-500);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--neutral-900);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      border-radius: 0.5rem;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 3px var(--primary-100);
+    }
+
+    .form-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checkbox-group input {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: var(--primary-500);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-700);
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--neutral-400);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--neutral-300);
+    }
+
+    .oauth-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .oauth-btn {
+      padding: 0.75rem;
+      border: 1px solid var(--neutral-300);
+      background: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .oauth-btn:hover {
+      border-color: var(--neutral-500);
+      background: var(--neutral-50);
+    }
+
+    .kakao-btn {
+      color: #391B1B;
+      border-color: #FEE500;
+      background: #FEE500;
+    }
+
+    .kakao-btn:hover {
+      background: #FFE100;
+    }
+
+    .naver-btn {
+      color: white;
+      background: #00C73C;
+      border-color: #00C73C;
+    }
+
+    .naver-btn:hover {
+      background: #00B030;
+    }
+
+    .signup-link {
+      text-align: center;
+      color: var(--neutral-600);
+      font-size: 0.9rem;
+    }
+
+    .signup-link a {
+      color: var(--primary-500);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .uncle-link {
+      text-align: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--neutral-300);
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .uncle-link a {
+      color: var(--primary-500);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .uncle-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .auth-card {
+        padding: 1.5rem;
+      }
+
+      .oauth-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .user-type-selector {
+        margin-bottom: 1.5rem;
+      }
+
+      .user-type-btn {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">🎭 아조씨 렌탈</div>
+        <nav class="nav-desktop">
+          <li><a href="index.html">홈</a></li>
+          <li><a href="search.html">검색</a></li>
+          <li><a href="customer-signup.html">회원가입</a></li>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2>로그인</h2>
+        <p>아조씨 렌탈에 로그인하세요</p>
+
+        <!-- User Type Selector -->
+        <div class="user-type-selector">
+          <button class="user-type-btn active" data-type="customer">고객</button>
+          <button class="user-type-btn" data-type="uncle">아조씨</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form">
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" placeholder="example@email.com" required>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+          </div>
+
+          <!-- Remember & Forgot Password -->
+          <div class="form-footer">
+            <div class="checkbox-group">
+              <input type="checkbox" id="remember" name="remember">
+              <label for="remember">로그인 유지</label>
+            </div>
+            <a href="#" class="forgot-password">비밀번호 찾기</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-submit">로그인</button>
+        </form>
+
+        <!-- Signup Link -->
+        <div class="signup-link">
+          계정이 없으신가요? <a href="customer-signup.html">회원가입</a>
+        </div>
+
+        <!-- Uncle Login Link -->
+        <div class="uncle-link">
+          아조씨이신가요? <a href="uncle-login.html">아조씨 로그인</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // User Type Selector
+    document.querySelectorAll('.user-type-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.user-type-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        // In a real app, this would switch the form/endpoint
+        const userType = this.dataset.type;
+        console.log('User type selected:', userType);
+      });
+    });
+  </script>
+</body>
+</html>
