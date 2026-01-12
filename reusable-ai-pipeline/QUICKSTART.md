@@ -20,6 +20,7 @@
 cp -r /path/to/reusable-ai-pipeline/docs ./docs
 cp /path/to/reusable-ai-pipeline/CLAUDE.md ./CLAUDE.md
 cp /path/to/reusable-ai-pipeline/KB.md ./KB.md
+cp /path/to/reusable-ai-pipeline/templates/HANDOFF-template.md ./.handoff.md
 ```
 
 ### 옵션 B: 개별 복사
@@ -28,11 +29,19 @@ cp /path/to/reusable-ai-pipeline/KB.md ./KB.md
 # 최소 필수
 cp /path/to/reusable-ai-pipeline/CLAUDE.md ./CLAUDE.md
 cp /path/to/reusable-ai-pipeline/KB.md ./KB.md
+cp /path/to/reusable-ai-pipeline/templates/HANDOFF-template.md ./.handoff.md
 
 # 그리고 나중에
 mkdir -p docs/engineering/guides
 cp -r /path/to/reusable-ai-pipeline/{onboarding,development,design,planning,templates} docs/engineering/guides/
 ```
+
+### ⚠️ .handoff.md 생성 필수
+
+**.handoff.md**는 세션 간 컨텍스트 이관의 핵심입니다:
+- 새 세션에서 에이전트가 프로토콜을 따르도록 강제
+- 복잡도 계산 → Single/Wave 결정을 자동 트리거
+- 템플릿 참조: `templates/HANDOFF-template.md`
 
 ---
 
@@ -134,16 +143,28 @@ posts
 새 Claude Code 세션에서:
 
 ```
-CLAUDE.md 읽어줄래?
+CLAUDE.md 읽고 .handoff.md 읽어
 ```
 
 **자동으로 진행됨**:
 1. ✅ CLAUDE.md 로드 완료
-2. ✅ 역할 선택 테이블 표시
-3. 🎯 사용자가 역할 선택 (1-6)
-4. 📚 필수 문서 자동 로드
-5. ✅ 온보딩 완료 보고
-6. 🚀 작업 시작
+2. ✅ .handoff.md 로드 → 필수 지시 확인
+3. ✅ 역할 선택 테이블 표시
+4. 🎯 사용자가 역할 선택 (1-6)
+5. 📚 필수 문서 자동 로드
+6. 📊 **복잡도 계산** (1번 선택 시 필수!)
+7. 🔀 Single/Wave 결정
+8. ✅ 온보딩 완료 보고
+9. 🚀 작업 시작
+
+### ⚠️ 중요: 복잡도 계산 강제
+
+**1번(신규 기능 개발) 선택 시**:
+- 복잡도 계산 필수 (스킵 금지)
+- complexity < 2.0 → Single Agent
+- complexity ≥ 2.0 → Wave Orchestration 강제
+
+이 Gate가 없으면 에이전트가 습관적으로 순차 작업만 진행합니다.
 
 ---
 
@@ -155,6 +176,7 @@ CLAUDE.md 읽어줄래?
 my-new-project/
 ├── CLAUDE.md                  ✅ 커스터마이징됨
 ├── KB.md                      ✅ 유지
+├── .handoff.md                ✅ 세션 핸드오프 (필수!)
 ├── package.json
 ├── src/
 │   └── ...

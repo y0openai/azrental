@@ -96,11 +96,25 @@
 - 개발 모드 선택: `docs/engineering/guides/design/orchestration-selection-guide.md`
 - 에이전트 역할: `docs/engineering/guides/development/agent-roles.md`
 
+**⚠️ 강제 실행 Gate (MANDATORY)**:
+```yaml
+step_1: "PRD 읽기"
+step_2: "복잡도 계산 (아래 공식 사용)"
+step_3: "결과에 따라 자동 분기"
+  gate:
+    complexity < 2.0: "Single Agent 허용"
+    complexity ≥ 2.0: "Wave Orchestration 강제"
+step_4: "Wave 선택 시 03-ORCHESTRATION.md 작성 → PM 승인 → 실행"
+
+warning: "복잡도 계산 없이 코딩 시작 금지"
+```
+
 **프로세스**:
-1. 개발 모드 선택 (Mode 1 병렬 또는 Mode 2 순차)
-2. Phase 0: 확장 문서 작성 (2.5-3시간) - 6개 문서
-3. Phase 1+: Wave Orchestration 자동 실행
-   - Sub-agent 병렬 생성 (Task 도구)
+1. **복잡도 계산** (필수)
+2. complexity < 2.0 → Single Agent Mode
+3. complexity ≥ 2.0 → Wave Orchestration:
+   - Phase 0: 확장 문서 작성 (2.5-3시간) - 6개 문서
+   - Phase 1+: Sub-agent 병렬 생성 (Task 도구)
    - Phase별 자동 완료 & 다음 Phase 준비
 
 #### 2번: 버그 수정 (Bug Fix)
@@ -145,13 +159,21 @@
 - {문서 경로 1}
 - {문서 경로 2 (있다면)}
 
+복잡도 계산 (1번 선택 시 필수):
+- 공식: (modules×0.3)+(days×0.2)+(api×0.25)+(ui×0.15)+(ext×0.1)
+- 계산: ({값}×0.3)+({값}×0.2)+({값}×0.25)+({값}×0.15)+({값}×0.1) = {총점}
+- 결과: {Single Agent / Wave Orchestration}
+
 이해한 핵심 개념 3가지:
 1. {핵심 개념 1}
 2. {핵심 개념 2}
 3. {핵심 개념 3}
 
+실행 모드: {Single / Wave}
 준비 상태: ✅ 작업 요구사항 수집 대기 중
 ```
+
+**⚠️ 1번(신규 기능 개발) 선택 시 복잡도 계산은 필수입니다. 스킵 금지.**
 
 ---
 
