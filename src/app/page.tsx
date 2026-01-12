@@ -1,10 +1,51 @@
+'use client';
+
+import { useState } from 'react';
+import {
+  HeroSection,
+  ServicesSection,
+  HowItWorksSection,
+  UncleProfilesSection,
+  TrustSection,
+  FinalCTASection,
+  FounderStoryModal,
+} from '@/components/landing';
+import { Header, BottomNav } from '@/components/layout';
+
 export default function Home() {
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
+
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">아조씨렌탈</h1>
-        <p className="text-gray-600">랜딩페이지 개발 준비 완료</p>
-      </div>
-    </main>
+    <>
+      <Header />
+
+      <main className="pb-16 md:pb-0">
+        {/* Section 0: Hero */}
+        <HeroSection onOpenStoryModal={() => setIsStoryModalOpen(true)} />
+
+        {/* Section 0.5: Services */}
+        <ServicesSection />
+
+        {/* Section 1: How It Works */}
+        <HowItWorksSection />
+
+        {/* Section 1.5: Uncle Profiles */}
+        <UncleProfilesSection />
+
+        {/* Section 2: Trust & Safety */}
+        <TrustSection />
+
+        {/* Section 3: Final CTA */}
+        <FinalCTASection />
+      </main>
+
+      <BottomNav />
+
+      {/* Founder Story Modal */}
+      <FounderStoryModal
+        isOpen={isStoryModalOpen}
+        onClose={() => setIsStoryModalOpen(false)}
+      />
+    </>
   );
 }
