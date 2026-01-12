@@ -11,9 +11,14 @@ status:
   phase1_planning: ✅
   phase1_feature_hubs: 🔄
     landing-page: {prd:✅, rfc:❌, orch:❌, dev:✅}
-    customer-auth: {prd:✅, rfc:❌, orch:❌}
+    customer-auth: {prd:✅, rfc:✅, orch:✅, dev:✅, deploy:✅}
     uncle-auth: {prd:✅, rfc:❌, orch:❌}
   phase2_dev: ⏳
+
+deploy:
+  url: https://azrental-842a8.web.app
+  platform: Firebase Hosting + Cloud Functions
+  region: asia-northeast3
 ```
 
 ---
@@ -120,15 +125,15 @@ backend: Firebase #실시간DB,결제연동,MVP효율
 founder_story: YouTube영포티조롱 #한국2025사회문제
 landing: 패럴랙스11섹션 #깊이감,감정여정
 payment: Toss+Kakao/Naver #한국시장선호순
-hosting: Vercel+Firebase #Next.js최적화,GitHubActions
+hosting: Firebase #App Hosting+Cloud Functions,asia-northeast3
 ```
 
 ## arch
 
 ```yaml
 frontend: {fw:Next.js14+AppRouter, lang:TS, style:Tailwind+shadcn, state:Zustand+ReactQuery, build:Turbopack}
-backend: {platform:Firebase, auth:Email/Phone+Kakao/Naver, db:Firestore+RealtimeDB, fn:CloudFunctions, storage:CloudStorage, push:FCM}
-infra: {fe:Vercel-Seoul, be:Firebase-Seoul, ci:GitHubActions, pay:TossEscrow}
+backend: {platform:Firebase, auth:Email/Phone, db:Firestore+RealtimeDB, fn:CloudFunctions, storage:CloudStorage, push:FCM}
+infra: {fe:Firebase-Seoul, be:Firebase-Seoul, ci:GitHubActions, pay:TossEscrow}
 ```
 
 ## db_schema
@@ -164,6 +169,7 @@ onboarding: docs/engineering/onboarding/[new-feature,bug-fix,refactoring,testing
 ## changelog
 
 ```yaml
+- {v:5.5, d:2026-01-13, c:"Firebase 배포 완료, 소셜 로그인 제거, customer-auth 완료"}
 - {v:5.4, d:2026-01-12, c:"필수 실행 프로토콜 추가 (온보딩 강제화)"}
 - {v:5.3, d:2026-01-12, c:"commit_protocol 규칙 추가, Next.js 초기세팅"}
 - {v:5.2, d:2026-01-12, c:"CLAUDE.md AI압축포맷 전환"}
