@@ -780,3 +780,180 @@ main
     ├── phase-2  (v2.0.0 ~ v2.1.0)
     └── phase-3  (v3.0.0 ~ )
 ```
+
+---
+
+## 📄 CLAUDE.md 관리 프로토콜
+
+> **목적**: 세션 간 컨텍스트 휘발 방지, 새 에이전트 핸드오프 최적화
+> **추가일**: 2026-01-12
+
+### 왜 CLAUDE.md인가?
+
+```
+문제:
+├─ 긴 세션 → 컨텍스트 토큰 한계 → 휘발
+├─ 새 세션 시작 → 이전 진행상황 모름
+└─ 에이전트 교체 → 암묵지 손실
+
+해결:
+└─ CLAUDE.md = Single Source of Truth
+   ├─ 현재 상태 (status)
+   ├─ 다음 액션 (next_action)
+   └─ 핵심 컨텍스트 (압축 포맷)
+```
+
+### CLAUDE.md 포맷 원칙
+
+```yaml
+# 핵심 원칙: AI 에이전트 최적화
+target_reader: AI_agent (NOT human)
+format: compressed_yaml
+goal: max_context_density + min_tokens
+
+# 포맷 규칙
+rules:
+  - yaml_inline: "{key:val, key2:val2}"
+  - array_compact: "[a,b,c]"
+  - comments_inline: "#reason"
+  - pk_notation: "field*"
+  - fk_notation: "field→collection"
+  - enum_notation: "[opt1|opt2|opt3]"
+  - status_emoji: "✅❌🔄⏳"
+  - path_glob: "path/[a,b,c].md"
+```
+
+### CLAUDE.md 필수 섹션
+
+```yaml
+# 1. 헤더 (상태 + 다음액션) - 가장 중요
+v: {version}
+date: {YYYY-MM-DD}
+project: {one-line-description}
+tech: {stack/summary}
+status:
+  phase_n: {emoji}
+  current_work: {description}
+next_action: "{specific_instruction}"
+
+# 2. 온보딩 (새 에이전트용)
+onboarding:
+  ask_first: "{options}"
+  docs: {path_mappings}
+
+# 3. 에셋 참조 (문서 위치)
+assets:
+  foundation: {paths}
+  planning: {paths}
+  feature_hubs: {paths}
+
+# 4. 락된 결정사항 (변경불가)
+locked_decisions:
+  key: value #reason
+
+# 5. 아키텍처 (압축)
+arch:
+  frontend: {inline_yaml}
+  backend: {inline_yaml}
+  infra: {inline_yaml}
+
+# 6. DB 스키마 (압축)
+db_schema:
+  collection: {field*, field→ref, field[]}
+
+# 7. 커맨드 참조
+commands:
+  category: {cmd_mappings}
+
+# 8. 변경로그
+changelog:
+  - {v, d, c}
+```
+
+### 업데이트 트리거
+
+```yaml
+when_to_update:
+  - phase_transition: "상태 변경 시"
+  - milestone_complete: "PRD/RFC/구현 완료 시"
+  - decision_made: "중요 결정사항 확정 시"
+  - session_handoff: "세션 종료/교체 전"
+  - context_at_risk: "컨텍스트 75%+ 사용 시"
+
+what_to_update:
+  always:
+    - status section
+    - next_action
+    - changelog (new entry)
+  conditional:
+    - locked_decisions (if new decision)
+    - db_schema (if schema change)
+    - arch (if architecture change)
+```
+
+### 버전 관리
+
+```yaml
+versioning:
+  format: "{major}.{minor}"
+  increment:
+    major: "phase transition"
+    minor: "milestone within phase"
+
+  example:
+    - "5.0": "Phase 1 시작"
+    - "5.1": "PRD 3개 완료"
+    - "5.2": "CLAUDE.md 압축포맷 전환"
+    - "6.0": "Phase 2 시작"
+```
+
+### 압축 전후 비교
+
+```yaml
+before (human-readable):
+  lines: 265
+  readability: high
+  token_efficiency: low
+
+after (ai-optimized):
+  lines: 125
+  readability: medium (for humans)
+  token_efficiency: high (53% 압축)
+
+tradeoff: "인간 가독성 ↓ | AI 파싱효율 ↑"
+decision: "AI 에이전트가 주 독자이므로 압축 선택"
+```
+
+### 새 에이전트 핸드오프 프로토콜
+
+```
+새 세션 시작 시:
+1. CLAUDE.md 읽기 (필수, 최우선)
+2. status.next_action 확인
+3. 해당 작업의 feature-hub 문서 참조
+4. 작업 완료 후 CLAUDE.md 업데이트
+
+컨텍스트 위험 감지 시:
+1. 현재 진행상황 CLAUDE.md에 기록
+2. next_action 구체적으로 명시
+3. 새 세션에서 이어서 작업 가능하도록 보장
+```
+
+### 체크리스트
+
+```
+세션 시작:
+- [ ] CLAUDE.md 읽기
+- [ ] status 확인
+- [ ] next_action 파악
+
+작업 중:
+- [ ] 중요 결정 시 locked_decisions 업데이트
+- [ ] 마일스톤 완료 시 status 업데이트
+
+세션 종료:
+- [ ] status 최신화
+- [ ] next_action 명확히 기술
+- [ ] changelog 추가
+- [ ] version increment
+```
