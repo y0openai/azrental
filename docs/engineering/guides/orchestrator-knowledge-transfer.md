@@ -957,3 +957,89 @@ decision: "AI 에이전트가 주 독자이므로 압축 선택"
 - [ ] changelog 추가
 - [ ] version increment
 ```
+
+---
+
+## 📋 .handoff.md 세션 컨텍스트 프로토콜
+
+> **목적**: 세션 간 휘발성 컨텍스트 전달
+> **추가일**: 2026-01-12
+
+### CLAUDE.md vs .handoff.md 역할 분리
+
+```yaml
+CLAUDE.md:
+  성격: 영구 (Persistent)
+  내용: [프로젝트상태, 아키텍처, 결정사항, 진행률]
+  업데이트: 마일스톤 완료 시
+  git: 커밋 대상
+
+.handoff.md:
+  성격: 휘발 (Ephemeral)
+  내용: [대화맥락, WIP상세, 미결논의, 다음액션상세]
+  업데이트: 세션 종료/마일스톤 완료 시
+  git: .gitignore (선택)
+```
+
+### .handoff.md 포맷
+
+```yaml
+# 세션 핸드오프
+ts: {YYYY-MM-DD HH:mm}
+from_session: {session_id 또는 설명}
+
+## 마지막 작업
+task: "{완료한 작업}"
+result: "{결과 요약}"
+
+## 진행중 작업 (WIP)
+wip:
+  - item: "{작업명}"
+    progress: "{진행률 또는 상태}"
+    next_step: "{다음 단계}"
+
+## 미결 사항
+pending:
+  - "{PM 결정 대기 사항}"
+  - "{논의 필요 사항}"
+
+## 대화 맥락
+context:
+  - "{이전 세션에서 논의된 중요 맥락}"
+  - "{합의했지만 문서화 안 된 사항}"
+
+## 다음 세션 액션
+next_action: "{구체적 지시}"
+read_first: ["{참조할 문서 경로}"]
+```
+
+### 업데이트 트리거
+
+```yaml
+자동_트리거 (에이전트가 알아서):
+  - 마일스톤 완료: PRD, RFC, 구현, 테스트 완료 시
+  - 중요 결정 확정 시
+  - 에러/블로커 발생 시
+
+수동_트리거 (사용자 지시):
+  - "핸드오프 작성해"
+  - "세션 정리해"
+  - "컨텍스트 저장해"
+```
+
+### 새 세션 시작 프로토콜
+
+```
+1. CLAUDE.md 읽기 (프로젝트 상태)
+2. .handoff.md 읽기 (세션 컨텍스트)
+3. next_action 기반 작업 시작
+4. 작업 완료 후 .handoff.md 덮어쓰기
+```
+
+### 파일 위치
+
+```
+/project-root/
+├── CLAUDE.md        # 프로젝트 루트
+└── .handoff.md      # 프로젝트 루트 (gitignore 선택)
+```

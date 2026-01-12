@@ -1,7 +1,7 @@
 # 아조씨 렌탈 - Agent Context
 
 ```yaml
-v: 5.2
+v: 5.3
 date: 2026-01-12
 project: P2P-marketplace(uncle↔customer)
 tech: Next.js14+/TS/Tailwind/Firebase/Vercel
@@ -19,6 +19,15 @@ next_action: "RFC작성 OR 개발시작 (PM결정대기)"
 ```
 
 ---
+
+## rules
+
+```yaml
+commit_protocol:
+  - "커밋 전 .handoff.md 필수 업데이트"
+  - "WIP/pending/context/next_action 갱신"
+  - "PM 별도 요청 불필요 (자동 실행)"
+```
 
 ## onboarding
 
@@ -111,6 +120,7 @@ onboarding: docs/engineering/onboarding/[new-feature,bug-fix,refactoring,testing
 ## changelog
 
 ```yaml
+- {v:5.3, d:2026-01-12, c:"commit_protocol 규칙 추가, Next.js 초기세팅"}
 - {v:5.2, d:2026-01-12, c:"CLAUDE.md AI압축포맷 전환"}
 - {v:5.1, d:2026-01-12, c:"Phase1 PRD 3개 완성"}
 - {v:5.0, d:2026-01-12, c:"Wave Orchestration 통합"}
