@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { SocialLoginButtons } from './SocialLoginButtons';
 import { loginSchema, LoginInput } from '@/lib/validations/auth';
 import { useAuthContext } from '@/contexts/AuthContext';
 
@@ -83,18 +82,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           로그인
         </Button>
       </form>
-
-      <SocialLoginButtons
-        disabled={loading}
-        onKakaoLogin={() => {
-          // TODO: Kakao OAuth 구현 (Phase 1.5)
-          console.log('Kakao login');
-        }}
-        onNaverLogin={() => {
-          // TODO: Naver OAuth 구현 (Phase 1.5)
-          console.log('Naver login');
-        }}
-      />
 
       <p className="mt-6 text-center text-sm text-gray-600">
         계정이 없으신가요?{' '}

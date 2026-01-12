@@ -1,0 +1,22 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 프로필 이미지
+    match /profiles/{userId}/{allPaths=**} {
+      allow read: if true; // 공개 읽기
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 아저씨 포트폴리오 이미지
+    match /portfolios/{uncleId}/{allPaths=**} {
+      allow read: if true; // 공개 읽기
+      allow write: if request.auth != null && request.auth.uid == uncleId;
+    }
+
+    // 기타 파일은 인증된 사용자만
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

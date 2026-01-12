@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/Button';
 import { EmailVerification } from './EmailVerification';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { AgreementCheckboxes } from './AgreementCheckboxes';
-import { SocialLoginButtons } from './SocialLoginButtons';
 import { signupSchema, SignupInput } from '@/lib/validations/auth';
 import { useAuthContext } from '@/contexts/AuthContext';
 
@@ -129,12 +128,6 @@ export function SignupForm({ onSuccess }: SignupFormProps) {
             >
               인증 코드 받기
             </Button>
-
-            <SocialLoginButtons
-              disabled={loading}
-              onKakaoLogin={() => console.log('Kakao signup')}
-              onNaverLogin={() => console.log('Naver signup')}
-            />
           </div>
         );
 
