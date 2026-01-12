@@ -150,6 +150,7 @@ Orchestrator 분석 (Phase 간 통합)
 | 비즈니스 기획 | `docs/foundation/03-business-planning.md` | 시장 분석, 수익 모델 |
 | 랜딩 스토리텔링 | `docs/foundation/04-landing-page-storytelling.md` | 11섹션 패럴랙스, 창업자 스토리 |
 | 법적 컴플라이언스 | `docs/foundation/05-legal-compliance.md` | 법적 분류, 신고, 리스크 |
+| **비즈니스 정책** | `docs/foundation/06-business-policies.md` | ⭐ 예약/결제/취소/승인 정책 (개발 필수 참조) |
 | IA & 유저 플로우 | `docs/planning/01-ia-user-flows.md` | 사이트맵, 태스크 플로우 |
 | 디자인 시스템 | `docs/planning/02-design-system.md` | LINE DS 기반, 색상, 타이포 |
 | 콘텐츠 전략 | `docs/planning/03-content-strategy.md` | 톤앤매너, 마이크로카피 |
