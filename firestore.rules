@@ -13,10 +13,21 @@ service cloud.firestore {
       allow read, write: if false; // 클라이언트 접근 불가
     }
 
-    // 아저씨 컬렉션 (추후 추가)
+    // 아저씨 컬렉션
     match /uncles/{uncleId} {
+      // 승인된 아저씨는 공개 조회 가능
       allow read: if request.auth != null;
+      // 본인만 쓰기 가능 (status 필드는 서버에서만 변경)
       allow write: if request.auth != null && request.auth.uid == uncleId;
+    }
+
+    // 아저씨 신청 컬렉션 (임시 저장, 제출 관리)
+    match /uncle_applications/{applicationId} {
+      // 본인 신청만 읽기 가능 (이메일로 확인)
+      allow read: if request.auth != null &&
+        resource.data.email == request.auth.token.email;
+      // 신청 생성/수정은 서버에서만 (Server Actions 사용)
+      allow write: if false;
     }
 
     // 예약 컬렉션 (추후 추가)

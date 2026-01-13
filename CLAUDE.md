@@ -1,8 +1,8 @@
 # 아조씨 렌탈 - Agent Context
 
 ```yaml
-v: 5.4
-date: 2026-01-12
+v: 5.6
+date: 2026-01-13
 project: P2P-marketplace(uncle↔customer)
 tech: Next.js14+/TS/Tailwind/Firebase/Vercel
 
@@ -12,7 +12,7 @@ status:
   phase1_feature_hubs: 🔄
     landing-page: {prd:✅, rfc:❌, orch:❌, dev:✅}
     customer-auth: {prd:✅, rfc:✅, orch:✅, dev:✅, deploy:✅}
-    uncle-auth: {prd:✅, rfc:❌, orch:❌}
+    uncle-auth: {prd:✅, rfc:✅, orch:✅, dev:✅, deploy:✅}
   phase2_dev: ⏳
 
 deploy:
@@ -169,6 +169,7 @@ onboarding: docs/engineering/onboarding/[new-feature,bug-fix,refactoring,testing
 ## changelog
 
 ```yaml
+- {v:5.6, d:2026-01-13, c:"uncle-auth Wave 1~3 완료, E2E 테스트 18/18, Firebase 배포"}
 - {v:5.5, d:2026-01-13, c:"Firebase 배포 완료, 소셜 로그인 제거, customer-auth 완료"}
 - {v:5.4, d:2026-01-12, c:"필수 실행 프로토콜 추가 (온보딩 강제화)"}
 - {v:5.3, d:2026-01-12, c:"commit_protocol 규칙 추가, Next.js 초기세팅"}
