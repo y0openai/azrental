@@ -2,26 +2,36 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // ============================================
     // 고객 컬렉션
+    // ============================================
     match /customers/{customerId} {
       // 본인만 읽기/쓰기 가능
       allow read, write: if request.auth != null && request.auth.uid == customerId;
     }
 
+    // ============================================
     // 인증 코드 컬렉션 (서버에서만 접근)
+    // ============================================
     match /verificationCodes/{email} {
       allow read, write: if false; // 클라이언트 접근 불가
     }
 
-    // 아저씨 컬렉션
+    // ============================================
+    // 아조씨 컬렉션
+    // ============================================
     match /uncles/{uncleId} {
-      // 승인된 아저씨는 공개 조회 가능
-      allow read: if request.auth != null;
+      // 승인된 아조씨는 공개 조회 가능 (비로그인도 가능)
+      // 미승인 아조씨는 본인만 조회 가능
+      allow read: if resource.data.status == 'approved' ||
+                    (request.auth != null && request.auth.uid == uncleId);
       // 본인만 쓰기 가능 (status 필드는 서버에서만 변경)
       allow write: if request.auth != null && request.auth.uid == uncleId;
     }
 
-    // 아저씨 신청 컬렉션 (임시 저장, 제출 관리)
+    // ============================================
+    // 아조씨 신청 컬렉션 (임시 저장, 제출 관리)
+    // ============================================
     match /uncle_applications/{applicationId} {
       // 본인 신청만 읽기 가능 (이메일로 확인)
       allow read: if request.auth != null &&
@@ -30,15 +40,48 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // 예약 컬렉션 (추후 추가)
+    // ============================================
+    // 예약 컬렉션
+    // ============================================
     match /bookings/{bookingId} {
+      // 읽기: 본인(고객/아조씨)만
       allow read: if request.auth != null &&
         (resource.data.customerId == request.auth.uid ||
          resource.data.uncleId == request.auth.uid);
-      allow create: if request.auth != null;
+
+      // 생성: 인증된 사용자만 (고객)
+      // 초기 상태는 pending이어야 함
+      allow create: if request.auth != null &&
+        request.resource.data.customerId == request.auth.uid &&
+        request.resource.data.status == 'pending';
+
+      // 수정: 본인(고객/아조씨)만
+      // 상태 전이 규칙은 Server Actions에서 관리
       allow update: if request.auth != null &&
         (resource.data.customerId == request.auth.uid ||
          resource.data.uncleId == request.auth.uid);
+
+      // 삭제 불가
+      allow delete: if false;
+    }
+
+    // ============================================
+    // 아조씨 계좌 정보 (오프라인 결제 안내용)
+    // ============================================
+    match /uncle_bank_accounts/{uncleId} {
+      // 읽기: 공개된 경우 누구나, 비공개면 본인만
+      allow read: if resource.data.isVisible == true ||
+                    (request.auth != null && request.auth.uid == uncleId);
+      // 쓰기: 본인만
+      allow write: if request.auth != null && request.auth.uid == uncleId;
+    }
+
+    // ============================================
+    // 정책 설정 (읽기 전용)
+    // ============================================
+    match /policy_configs/{domain} {
+      allow read: if true;
+      allow write: if false; // 서버에서만 변경
     }
   }
 }
