@@ -6,7 +6,6 @@ import {
   ServicesSection,
   HowItWorksSection,
   UncleProfilesSection,
-  TrustSection,
   FinalCTASection,
   FounderStoryModal,
 } from '@/components/landing';
@@ -31,9 +30,6 @@ export default function Home() {
 
         {/* Section 1.5: Uncle Profiles */}
         <UncleProfilesSection />
-
-        {/* Section 2: Trust & Safety */}
-        <TrustSection />
 
         {/* Section 3: Final CTA */}
         <FinalCTASection />
